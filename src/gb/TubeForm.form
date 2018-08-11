@@ -23,7 +23,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value=""/>
+          <text value="09Х12"/>
         </properties>
       </component>
       <component id="4de54" class="javax.swing.JTextField" binding="textField2" default-binding="true">
@@ -32,7 +32,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="1.82"/>
+        </properties>
       </component>
       <component id="a281f" class="javax.swing.JTextField" binding="textField3" default-binding="true">
         <constraints>
