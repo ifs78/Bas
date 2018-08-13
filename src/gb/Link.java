@@ -13,40 +13,47 @@ public class Link {
     private static Statement stmt;
     private static ResultSet rs;
     private static String url = "jdbc:mysql://localhost:3306/fintube?characterEncoding=utf8&autoReconnect=true&useSSL=false";
-    public static String m, d;
+    private static String m, d;
 
-       public static void main(String[] args) {
-           TubeForm tb = new TubeForm();
+    public static void main(String[] args) {
+        TubeForm tb = new TubeForm();
 
-           tb.setContentPane(tb.panel1);
-           tb.setBounds(0,0,900,600);
-           tb.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-           tb.setVisible(true);
+        tb.setContentPane(tb.panel1);
+        tb.setBounds(0,0,900,600);
+        tb.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        tb.setVisible(true);
 
 
-           tb.button1.addActionListener(new ActionListener() {
-               @Override
-               public void actionPerformed(ActionEvent e) {
-                   m = (String) tb.comboMarkTube.getSelectedItem();
-                   d = (String) tb.comboMarkSheet.getSelectedItem();
 
-                   try {
-                       queryData("insert into material (mark, density) VALUES ('" + m  + "', '" + d + "')");
-                       queryData("select id, mark, density from material");
-                       while (rs.next()) getDataDB();
-                       System.out.println("Данные из базы получены");
-                   } catch (SQLException sqlEx){
-                       sqlEx.printStackTrace();
-                   } finally {
-                       try { con.close(); } catch(SQLException se) { se.getMessage();}
-                       try { stmt.close(); } catch(SQLException se) { se.getMessage();}
-                       try { rs.close(); } catch(SQLException se) { se.getMessage();}
-                   }
 
-               }
-           });
 
-          System.out.println(m + d);
+        tb.button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Float shrFin = Float.parseFloat(tb.tFShrinkFin.getText());
+                int widSh = Integer.parseInt(tb.tFWidthSheet.getText());
+                Float heigFin = shrFin*widSh;
+                tb.tFHeightFin.setText(Float.toString(heigFin));
+                m = (String) tb.comboMarkTube.getSelectedItem();
+                d = (String) tb.comboMarkSheet.getSelectedItem();
+
+                try {
+                    queryData("insert into material (mark, density) VALUES ('" + m  + "', '" + d + "')");
+                    queryData("select id, mark, density from material");
+                    while (rs.next()) getDataDB();
+                    System.out.println("Данные из базы получены");
+                } catch (SQLException sqlEx){
+                    sqlEx.printStackTrace();
+                } finally {
+                    try { con.close(); } catch(SQLException se) { se.getMessage();}
+                    try { stmt.close(); } catch(SQLException se) { se.getMessage();}
+                    try { rs.close(); } catch(SQLException se) { se.getMessage();}
+                }
+
+            }
+        });
+
+        System.out.println(m + d);
 
 
 
@@ -56,17 +63,17 @@ public class Link {
         stmt = con.createStatement();
         if (query.contains("select")) {
             rs = stmt.executeQuery(query);
-           }
+        }
         else if (query.contains("insert")) {
             stmt.executeUpdate(query);
         }
 
     }
     private static void getDataDB() throws SQLException {
-            int id = rs.getInt("id");
-            String mark = rs.getString("mark");
-            String density = rs.getString("density");
-            System.out.printf("id : %d, Марка : %s, Плотность : %s%n", id, mark, density);
-         }
+        int id = rs.getInt("id");
+        String mark = rs.getString("mark");
+        String density = rs.getString("density");
+        System.out.printf("id : %d, Марка : %s, Плотность : %s%n", id, mark, density);
+    }
 
 }
