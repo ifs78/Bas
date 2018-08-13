@@ -12,7 +12,7 @@ public class Link {
     private static Connection con;
     private static Statement stmt;
     private static ResultSet rs;
-    private static String url = "jdbc:mysql://localhost:3306/fintube?autoReconnect=true&useSSL=false";
+    private static String url = "jdbc:mysql://localhost:3306/fintube?characterEncoding=utf8&autoReconnect=true&useSSL=false";
     public static String m, d;
 
        public static void main(String[] args) {
@@ -27,12 +27,10 @@ public class Link {
            tb.button1.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent e) {
-                   m = tb.textField1.getText();
-                   d = tb.textField2.getText();
+                   m = (String) tb.comboMarkTube.getSelectedItem();
+                   d = (String) tb.comboMarkSheet.getSelectedItem();
 
                    try {
-                       queryData("SET NAMES 'utf8'");
-                       queryData("SET CHARACTER SET 'utf8'");
                        queryData("insert into material (mark, density) VALUES ('" + m  + "', '" + d + "')");
                        queryData("select id, mark, density from material");
                        while (rs.next()) getDataDB();
